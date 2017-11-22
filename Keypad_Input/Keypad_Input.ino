@@ -85,5 +85,6 @@ void statusAlarme(bool ativar) {
   //delay 15 seg
   //envia sms
   //ou nao envia se desativado
+  
 }
 
