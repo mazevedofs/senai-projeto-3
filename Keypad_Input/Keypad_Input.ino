@@ -5,8 +5,11 @@
 bool typing = false;//salvar estado da senha
 String senhaDigitada;
 String senha = "4321";
-int buzzer = 4;
-bool ultimoEstadoBuzzer = false;
+int buzzer = 3;
+long ultimoEstadoPorta;
+bool portaAberta;
+
+
 Ultrasonic ultrasonic(7, 8);
 
 
@@ -30,61 +33,69 @@ void setup() {
 
   pinMode(A0, INPUT);
 
-  pinMode(buzzer, INPUT);
+  pinMode(buzzer, OUTPUT);
+
 
 }
 
 void loop() {
   int distanciaPorta = ultrasonic.distanceRead();
   char key = keypad.getKey();
-
-  //ultimoEstadoBuzzer = digitalRead(buzzer);
-
-  if (distanciaPorta < 10 && distanciaPorta > 0) {
-    Serial.println(distanciaPorta);
-    statusAlarme (true);
-
-
-    if (key) {
-
-      if (typing && key != '#') {
-        senhaDigitada += key;
-        Serial.println(senhaDigitada);
-      }
-
-      if (key == '*') {
-        senhaDigitada = "";
-        typing = true;
-        Serial.println("Digitando senha...");
-      }
-      if (key == '#') {
-        typing = false;
-        Serial.println("Finalizado");
-        if (senhaDigitada == senha) {
-
-          noTone (buzzer);
-          ultimoEstadoBuzzer = false;
-          Serial.println("Alarme desativado");
-        }
-        else {
-          Serial.println("Acesso negado");
-        }
-      }
-      Serial.println(key);
-    }
-
-  } else if (distanciaPorta > 10) {
-    delay(1000);
-    Serial.println(distanciaPorta);
-  }
-}
-
-void statusAlarme(bool ativar) {
-  ultimoEstadoBuzzer = ativar;
-  tone (buzzer, 2000);
-  //delay 15 seg
-  //envia sms
-  //ou nao envia se desativado
+  //  Serial.print("Millis" );
+  //  Serial.println(millis() % 15000 == 0 );
+  //  Serial.print("Porta" );
+  //  Serial.println(portaAberta);
+  //Serial.print("Dist Porta" );
+  //Serial.println(distanciaPorta);
+  long now = millis();
   
+  if (now % 5000 == 0) {
+    Serial.println("5 Segundos");
+    //tone(buzzer, 3000);
+  }
+  //  if (now % 5000 == 0 ) {
+  //    tone(buzzer, 5000);
+  //    Serial.println("Buzzer tocou");
+  //
+  //  }
+
+  //  if (distanciaPorta < 10 && distanciaPorta > 0) {
+  //    Serial.println(distanciaPorta);
+  //    delay(1000);
+  //    portaAberta = true;
+  //
+  //
+  //    if (key) {
+  //
+  //      if (typing && key != '#') {
+  //        senhaDigitada += key;
+  //        Serial.println(senhaDigitada);
+  //      }
+  //
+  //      if (key == '*') {
+  //        senhaDigitada = "";
+  //        typing = true;
+  //        Serial.println("Digitando senha...");
+  //      }
+  //      if (key == '#') {
+  //        typing = false;
+  //        Serial.println("Finalizado");
+  //        if (senhaDigitada == senha) {
+  //          noTone (buzzer);
+  //          Serial.println("Alarme desativado");
+  //        }
+  //        else {
+  //          Serial.println("Acesso negado");
+  //          tone (buzzer, 2000);
+  //        }
+  //      }
+  //      Serial.println(key);
+  //    }
+  //  } else if (distanciaPorta > 10) {
+  //    delay(1000);
+  //    Serial.println(distanciaPorta);
+  //  }
 }
+
+
 
