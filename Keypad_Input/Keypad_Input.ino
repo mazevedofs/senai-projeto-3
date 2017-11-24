@@ -5,12 +5,12 @@
 bool typing = false;//salvar estado da senha
 String senhaDigitada;
 String senha = "4321";
-int buzzer = 3;
+int buzzer = 10;
 long ultimoEstadoPorta;
 bool portaAberta;
 
 
-Ultrasonic ultrasonic(7, 8);
+Ultrasonic ultrasonic(12, 13);
 
 
 
@@ -48,53 +48,53 @@ void loop() {
   //Serial.print("Dist Porta" );
   //Serial.println(distanciaPorta);
   long now = millis();
-  
-  if (now % 5000 == 0) {
-    Serial.println("5 Segundos");
-    //tone(buzzer, 3000);
-  }
-  //  if (now % 5000 == 0 ) {
-  //    tone(buzzer, 5000);
-  //    Serial.println("Buzzer tocou");
-  //
-  //  }
 
-  //  if (distanciaPorta < 10 && distanciaPorta > 0) {
-  //    Serial.println(distanciaPorta);
-  //    delay(1000);
-  //    portaAberta = true;
-  //
-  //
-  //    if (key) {
-  //
-  //      if (typing && key != '#') {
-  //        senhaDigitada += key;
-  //        Serial.println(senhaDigitada);
-  //      }
-  //
-  //      if (key == '*') {
-  //        senhaDigitada = "";
-  //        typing = true;
-  //        Serial.println("Digitando senha...");
-  //      }
-  //      if (key == '#') {
-  //        typing = false;
-  //        Serial.println("Finalizado");
-  //        if (senhaDigitada == senha) {
-  //          noTone (buzzer);
-  //          Serial.println("Alarme desativado");
-  //        }
-  //        else {
-  //          Serial.println("Acesso negado");
-  //          tone (buzzer, 2000);
-  //        }
-  //      }
-  //      Serial.println(key);
-  //    }
-  //  } else if (distanciaPorta > 10) {
-  //    delay(1000);
-  //    Serial.println(distanciaPorta);
-  //  }
+  //  if (now % 5000 == 0) {
+  //    Serial.println("5 Segundos");
+  //tone(buzzer, 3000);
+
+  if (now % 5000 == 0 ) {
+    tone(buzzer, 5000);
+    Serial.println("Buzzer tocou");
+  }
+
+  if (distanciaPorta < 10 && distanciaPorta > 0) {
+    Serial.println(distanciaPorta);
+    delay(1000);
+    portaAberta = true;
+
+
+    if (key) {
+
+      if (typing && key != '#') {
+        Serial.println("Taís");
+        senhaDigitada += key;
+        Serial.println(senhaDigitada);
+      }
+
+      if (key == '*') {
+        senhaDigitada = "";
+        typing = true;
+        Serial.println("Digitando senha...");
+      }
+      if (key == '#') {
+        typing = false;
+        Serial.println("Finalizado");
+        if (senhaDigitada == senha) {
+          noTone (buzzer);
+          Serial.println("Alarme desativado");
+        }
+        else {
+          Serial.println("Acesso negado");
+          tone (buzzer, 2000);
+        }
+      }
+      Serial.println(key);
+    }
+  } else if (distanciaPorta > 10) {
+    delay(1000);
+    Serial.println(distanciaPorta);
+  }
 }
 
 
