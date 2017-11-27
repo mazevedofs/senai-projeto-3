@@ -1,15 +1,16 @@
+#include <RestClient.h>
 #include <Ultrasonic.h>
 #include <Keypad.h>
-//baixar do GIT restclient.h
+#include <UIPEthernet.h>
 
 bool typing = false;//salvar estado da senha
 String senhaDigitada;
 String senha = "4321";
-int buzzer = 10;
+int buzzer = 3;
 long ultimoEstadoPorta;
 bool alarmeAtivado;
 
-Ultrasonic ultrasonic(12, 13);
+Ultrasonic ultrasonic(7, 8);
 
 const byte ROWS = 4; //four rows
 const byte COLS = 3; //three columns
@@ -25,12 +26,54 @@ byte colPins[COLS] = {8, 7, 6}; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
 
+// Alterar o último valor para o id do seu kit
+const byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xFF };
+EthernetClient ethclient;
+
+RestClient client = RestClient("192.168.3.186", 3000, ethclient);
+const char* sid = "AC9848c713c4f8d834a1a99b5ade904f60";
+const char* token = "c4cede7f15c35be0622896d597833aba";
+const char* to = "5511984820042";
+const char* from = "15744061737";
+
+String response = "";
+
+
 void setup() {
   Serial.begin(9600);
 
   pinMode(A0, INPUT);
   pinMode(buzzer, OUTPUT);
+
+  if(Ethernet.begin(mac)) {
+    Serial.println("Conectado via DHCP");
+    Serial.print("IP recebido:"); Serial.println(Ethernet.localIP());
+  }
+
+  String parametros = "sid=";
+  parametros += String(sid);
+
+  parametros += String("&token=");
+  parametros += String(token);
+
+  parametros += String("&to=");
+  parametros += String(to);
+
+  parametros += String("&from=");
+  parametros += String(from);
+
+  parametros += "&body=Mensagem Legal";
+
+  Serial.println(parametros);
+
+  int statusCode = client.post("/sms", parametros.c_str(), &response);
+  Serial.print("Status da resposta: ");
+  Serial.println(statusCode);
+  Serial.print("Resposta do servidor: ");
+  Serial.println(response);
+  delay(1000);
 }
+
 
 void loop() {
   int distanciaPorta = 0;
