@@ -71,8 +71,6 @@ void loop() {
     tone(buzzer, 3000);
   }
 
-
-
   if (distanciaPorta < 10 && distanciaPorta > 0) {
     Serial.println(distanciaPorta);
     delay(1000);
