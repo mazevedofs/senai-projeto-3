@@ -39,6 +39,7 @@ void loop() {
   //Serial.println();
   if (leituraInfra == "1") {
     trigger == true;
+    Serial.println("Trigger");
   }
 
   char key = keypad.getKey();
@@ -46,6 +47,7 @@ void loop() {
 
   if ((now % 5000 == 0) && trigger == true) {
     tone(buzzer, 3000);
+    Serial.println("Toca buzzer");
   }
 
   if (key && trigger) {
